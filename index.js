@@ -14,6 +14,8 @@ app.use(cors({
     origin: 'http://localhost:3000'
 }));
 
+app.set('port', process.env.PORT || 5000);
+
 /* Import modular routes */
 const products = require('./routes/products');
 const login = require('./auth/auth_jwt');
@@ -26,6 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(fileUpload());
+app.use(express.static('./client/build'));
 
 app.use('/products', products);
 app.use('/api', login);
@@ -34,6 +37,6 @@ app.use('/payment', payment);
 app.use('/account', account);
 app.use('/admin', admin);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Listening on port ${process.env.PORT}`);
+app.listen(app.get('port'), () => {
+    console.log(`Listening on port ${app.get('port')}`);
 });
