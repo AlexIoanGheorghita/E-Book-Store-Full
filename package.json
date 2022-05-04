@@ -4,7 +4,7 @@
   "description": "Back-end for the e-book e-commerce store",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
