@@ -37,6 +37,10 @@ app.use('/payment', payment);
 app.use('/account', account);
 app.use('/admin', admin);
 
+app.get("*", (req, res) => { //our GET route needs to point to the index.html in our build
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+
 app.listen(app.get('port'), () => {
     console.log(`Listening on port ${app.get('port')}`);
 });

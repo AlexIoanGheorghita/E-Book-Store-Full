@@ -6,16 +6,8 @@
   "scripts": {
     "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlexIoanGheorghita/E-Book-Store_Backend.git"
-  },
   "author": "Alex Gheorghita",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AlexIoanGheorghita/E-Book-Store_Backend/issues"
-  },
-  "homepage": "https://github.com/AlexIoanGheorghita/E-Book-Store_Backend#readme",
   "dependencies": {
     "@azure/storage-blob": "^12.9.0",
     "azure-storage": "^2.10.7",
