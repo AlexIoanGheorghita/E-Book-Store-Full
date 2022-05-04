@@ -6,6 +6,7 @@ const fileUpload = require('express-fileupload');
 const { BlobServiceClient } = require('@azure/storage-blob');
 const { v1: uuidv1 } = require('uuid');
 const dotenv = require('dotenv');
+const path = require('path');
 dotenv.config(); // Injecting env variables into process.env
 
 const app = express();
