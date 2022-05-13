@@ -12,7 +12,7 @@ dotenv.config(); // Injecting env variables into process.env
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: 'https://rauebookstore.azurewebsites.net:3000'
+    origin: '*'
 }));
 
 app.set('port', process.env.PORT || 5000);
