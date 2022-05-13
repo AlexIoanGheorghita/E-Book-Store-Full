@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.5e41044a.css",
-    "main.js": "/static/js/main.a4a8a555.js",
+    "main.js": "/static/js/main.c1406204.js",
     "static/js/787.b919487e.chunk.js": "/static/js/787.b919487e.chunk.js",
     "static/media/3d-orange-book-in-air.png": "/static/media/3d-orange-book-in-air.96bb7f61bc8c175dc5ce.png",
     "static/media/3d-green-book-in-air.png": "/static/media/3d-green-book-in-air.1b92bc4f7d0fae9699d8.png",
@@ -10,11 +10,11 @@
     "static/media/hero_image.png": "/static/media/hero_image.f7cf9e706fa7f142f9dc.png",
     "index.html": "/index.html",
     "main.5e41044a.css.map": "/static/css/main.5e41044a.css.map",
-    "main.a4a8a555.js.map": "/static/js/main.a4a8a555.js.map",
+    "main.c1406204.js.map": "/static/js/main.c1406204.js.map",
     "787.b919487e.chunk.js.map": "/static/js/787.b919487e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5e41044a.css",
-    "static/js/main.a4a8a555.js"
+    "static/js/main.c1406204.js"
   ]
 }
