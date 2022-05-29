@@ -61,6 +61,11 @@ export const Grid = styled.div`
     grid-auto-flow: row;
     justify-items: center;
     /*background-color: ${({theme}) => theme.colors.bgVeryLightGrey};*/
+
+    & a {
+        color: #000000;
+        text-decoration: none;
+    }
 `
 
 export const ProductCard = styled.div`

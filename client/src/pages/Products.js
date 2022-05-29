@@ -4,7 +4,7 @@ import ProductCard from '../components/ProductCard';
 import List from '../components/List';
 import Pagination from '../components/Pagination';
 import Filters from '../components/Filters';
-import { Link, useParams} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
     loadProducts, 
@@ -15,11 +15,12 @@ import {
     selectSortedAscByPrice,
     selectSortedDescByPrice
 } from '../store/productsSlice';
+import Card from '../components/Card';
 
 const text = {
     list1: {
         title: 'Fiction',
-        items: ['Adventure', 'Thriller', 'Mystery', 'Romance', 'Classics', 'Mythology']
+        items: ['Adventure', 'Mystery', 'Romance', 'Classics', 'Mythology']
     },
     list2: {
         title: 'Non-Fiction',
@@ -118,7 +119,15 @@ const Products = () => {
                 <Title>Categories</Title>
                 <Menu>
                     {Object.keys(text).map(textTitle => {
-                        return <List title={text[textTitle].title} items={text[textTitle].items} key={Object.keys(text).indexOf(textTitle)}></List>
+                        if (sessionStorage.getItem('role') && sessionStorage.getItem('role') !== 'individual') {
+                            return <List title={text[textTitle].title} items={text[textTitle].items} key={Object.keys(text).indexOf(textTitle)}></List>
+                        } else {
+                            if (textTitle !== 'list3') {
+                                return <List title={text[textTitle].title} items={text[textTitle].items} key={Object.keys(text).indexOf(textTitle)}></List>
+                            } else {
+                                return null;
+                            }
+                        }
                     })}
                 </Menu>
             </Categories>
@@ -126,7 +135,7 @@ const Products = () => {
                 <Filters handleSort={handleSorting} handleFilter={handleFiltering} results={prodArray.length}></Filters>
                 {products ? (<Grid>
                     {products[pageNum].map(product => {
-                        return <Link to={`/products/${product.product_id}`} key={product.product_id}><ProductCard title={product.title} image={product.thumbnail_url} price={product.price}/></Link>
+                        return <Link to={`/products/${product.product_id}`} key={product.product_id}><Card maximize={true} title={product.title} image={product.thumbnail_url} author={product.author_name}/></Link>
                     })}
                 </Grid>) : null}
                 <Pagination pages={pages} getPageNum={getPageNumber}/>
