@@ -127,6 +127,8 @@ router.get('/products/existing/:category', verifyAdmin, (req, res) => {
 });
 
 router.put('/products/:productId', verifyAdmin, (req, res) => {
+    const { category, subcategory } = req.body;
+
     db.query(`
         UPDATE products 
         SET status_id = 1
@@ -135,7 +137,17 @@ router.put('/products/:productId', verifyAdmin, (req, res) => {
         if (err) {
             res.status(500).json('Could not update record');
         } else {
-            res.status(200).json('Successfully updated');
+            db.query(`
+                INSERT INTO products_categories_junction (product_id, category_id)
+                VALUES (${req.params.productId}, ${category}),
+                VALUES (${req.params.productId}, ${subcategory})
+            `, (err, result) => {
+                if (err) {
+                    res.status(500).json('Could not introduce new records');
+                } else {
+                    res.status(200).json(`Successfully added product to categories: ${category}, ${subcategory}`);
+                }
+            });
         }
     }); 
 });

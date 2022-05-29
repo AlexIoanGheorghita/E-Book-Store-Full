@@ -23,6 +23,8 @@ const comparePasswords = async (password, hash) => {
     return false;
 }
 
+///hashPassword('<STRING>').then(value => console.log(value));
+
 module.exports = {
     hashPassword,
     comparePasswords
