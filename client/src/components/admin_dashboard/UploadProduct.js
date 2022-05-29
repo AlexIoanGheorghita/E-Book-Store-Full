@@ -5,6 +5,7 @@ import { axios_ } from '../../axios/base_url';
 import { Error } from '../../pages/Publish.styled';
 import Modal from '../publish/Modal';
 import { Message } from '../publish/UploadDocument.styled';
+import { Category, Dropdown, Option } from './Pending.styled';
 import { Wrapper, Container, Label, Input, Textarea, InputWrapper, InputGroup, Button } from './UploadProduct.styled';
 
 const useStyles = makeStyles({
@@ -15,6 +16,16 @@ const useStyles = makeStyles({
         marginRight: '4px'
     }
 });
+
+const categoryOptions = ['--Choose an option--', 'Fiction', 'Non-Fiction', 'Reference'];
+
+const emptySubcategory = ['--Choose an option--'];
+
+const fictionSubcategory = ['--Choose an option--', 'Adventure', 'Thriller', 'Mystery', 'Romance', 'Classics', 'Mythology'];
+
+const nonFictionSubcategory = ['--Choose an option--', 'Self-Development', 'Lifestyle', 'Health', 'Biography'];
+
+const referenceSubcategory = ['--Choose an option--', 'Computer Science', 'Business', 'Law', 'Tourism', 'Kinesiotherapy', 'European Studies', 'Finance'];
 
 const initialState = {
     document: null,
@@ -28,6 +39,8 @@ const initialState = {
     price: null,
     publisher: '',
     date_published: null,
+    category: '',
+    subcategory: '',
     errors: {
         docError: '',
         thumbErr: '',
@@ -68,6 +81,10 @@ const reducer = (state, action) => {
             return { ...state, publisher: action.payload };
         case 'setDate':
             return { ...state, date_published: action.payload };
+        case 'setCategory':
+            return { ...state, category: action.payload };
+        case 'setSubCategory':
+            return { ...state, subcategory: action.payload };
         case 'setError':
             return { ...state, errors: {...state.errors, [action.name]: action.payload }};
         case 'setToDefault':
@@ -82,6 +99,7 @@ const UploadProduct = (props) => {
     const buttonRef = useRef();
     const [showModal, setShowModal] = useState(false);
     const [success, setSuccess] = useState(false);  
+    const [currentSubcategory, setCurrentSubcategory] = useState(emptySubcategory);
     const [state, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
@@ -99,9 +117,9 @@ const UploadProduct = (props) => {
     };
 
     const validate = () => {
-        const { document, thumbnail, title, author, summary, pages, language, isbn, price, publisher, date_published } = state;
+        const { document, thumbnail, title, author, summary, pages, language, isbn, price, publisher, date_published, category, subcategory } = state;
 
-        if (document && thumbnail && title && author && summary && pages && language && isbn && (price !== null && Number(price) >= 0) && publisher && (date_published !== null && Number(date_published) <= new Date().getFullYear())) {
+        if (document && thumbnail && title && author && summary && pages && language && isbn && category && subcategory && (price !== null && Number(price) >= 0) && publisher && (date_published !== null && Number(date_published) <= new Date().getFullYear())) {
             if (buttonRef.current) {
                 buttonRef.current.removeAttribute('disabled');
             }
@@ -110,6 +128,37 @@ const UploadProduct = (props) => {
                 buttonRef.current.setAttribute('disabled', '');
             }
         }
+    }
+
+    /* Subcategory filter will change dynamically based on what category we choose */ 
+    const handleCategory = (e) => {
+        const item = e.target;
+        const cat = item.children[item.options.selectedIndex].getAttribute('value');
+        switch(cat) {
+            case '':
+                dispatch({ type: 'setCategory', payload: '' });
+                setCurrentSubcategory(emptySubcategory);
+                break;
+            case 'Fiction':
+                dispatch({ type: 'setCategory', payload: 'Fiction' });
+                setCurrentSubcategory(fictionSubcategory);
+                break;
+            case 'Non-Fiction':
+                dispatch({ type: 'setCategory', payload: 'Non-Fiction' });
+                setCurrentSubcategory(nonFictionSubcategory);
+                break;
+            case 'Reference':
+                dispatch({ type: 'setCategory', payload: 'Reference' });
+                setCurrentSubcategory(referenceSubcategory);
+                break;
+            default:
+                dispatch({ type: 'setCategory', payload: '' });
+                setCurrentSubcategory(emptySubcategory);
+        }
+    };
+
+    const handleSubcategory = (e) => {
+        dispatch({ type: 'setSubCategory', payload: e.target.children[e.target.options.selectedIndex].getAttribute('value') });
     }
 
     const handleDocumentUpload = (e) => {
@@ -264,6 +313,8 @@ const UploadProduct = (props) => {
         formData.append('price', formValues.price);
         formData.append('date', formValues.date_published);
         formData.append('publisher', formValues.publisher);
+        formData.append('category', formValues.category);
+        formData.append('subcategory', formValues.subcategory);
 
         return formData;
     }
@@ -359,6 +410,29 @@ const UploadProduct = (props) => {
                         <Message>{state.thumbnail !== null ? state.thumbnail.name : ''}</Message>
                         <Button onClick={handleShow}><Visibility className={classes.upload}/>Preview</Button>
                     </InputGroup>
+                </InputWrapper>
+                <InputWrapper>
+                    <p>Add product to a category and subcategory:</p>
+                    <Category>
+                        <p>Category:</p> 
+                        <Dropdown onChange={handleCategory}>                        
+                            {categoryOptions.map(elem => {
+                                return (categoryOptions.indexOf(elem) !== 0 ? 
+                                    <Option value={elem} key={categoryOptions.indexOf(elem)}>{elem}</Option> : 
+                                    <Option value="" key={categoryOptions.indexOf(elem)}>{elem}</Option>)
+                            })}
+                        </Dropdown>
+                    </Category>
+                    <Category>
+                        <p>Subcategory:</p>
+                        <Dropdown onChange={handleSubcategory}>
+                            {currentSubcategory.map(elem => {
+                                return (currentSubcategory.indexOf(elem) !== 0 ? 
+                                    <Option value={elem} key={currentSubcategory.indexOf(elem)}>{elem}</Option> : 
+                                    <Option value="" key={currentSubcategory.indexOf(elem)}>{elem}</Option>)
+                            })}
+                        </Dropdown>
+                    </Category>
                 </InputWrapper>
                 <Button ref={buttonRef} onClick={handleSubmit}>{success ? (<><CheckCircleSharp className={classes.success}/>Success</>) : 'Submit'}</Button>
                 <Error>{state.errors.defaultErr}</Error>
