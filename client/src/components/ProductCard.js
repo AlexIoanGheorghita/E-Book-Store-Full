@@ -8,8 +8,8 @@ const ProductCard = ({title, image, price}) => {
                 <Image src={image}/>
             </ImageWrapper>
             <DetailsWrapper>
-                <Title>{title}</Title>
-                <Author>George </Author>
+                {/* <Title>{title}</Title>
+                <Author>George </Author> */}
                 <Button>{price}</Button>
             </DetailsWrapper>
         </Wrapper>

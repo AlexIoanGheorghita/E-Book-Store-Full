@@ -16,11 +16,10 @@ export const Wrapper = styled.div`
     &:hover {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -2px;
     }
-;
 `
 
 export const ImageWrapper = styled.div`
-    height: 200px;
+    height: 245px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -31,7 +30,7 @@ export const Image = styled.img`
 `
 
 export const DetailsWrapper = styled.div`
-    height: 100px;
+    height: 45px;
     width: 100%;
     position: relative;
 `
@@ -51,11 +50,11 @@ export const Button = styled.button`
     width: 230px;
     height: 35px;
     cursor: pointer;
-    background-color: ${({theme}) => theme.colors.buttons};
+    background-color: ${({theme}) => theme.colors.darkBlue};
     border: none;
     font-family: 'Verdana', sans-serif;
     letter-spacing: 0.5px;
-    color: ${({theme}) => theme.colors.textVeryDarkGrey};
+    color: #FFFFFF;
     transition: width 0.2s ease, height 0.2s ease, left 0.2s ease, bottom 0.2s ease, font-size 0.2s ease;
 
     &:hover {

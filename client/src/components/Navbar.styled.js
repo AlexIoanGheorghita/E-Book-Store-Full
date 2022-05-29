@@ -19,16 +19,16 @@ export const RightSideNav = styled(LeftSideNav)`
     display: flex;
     justify-content: flex-end;
 
-    .right {
+    & ul.right {
         float: right;
     }
 
-    & ul li:nth-child(2) {
+    & ul.right > li:nth-child(2) {
         padding: 0 10px;
-        cursor: none;
+        cursor: auto;
     }
 
-    & ul li:nth-child(2)::after {
+    & ul.right > li:nth-child(2)::after {
         display: none;
     }
 ` 
@@ -125,14 +125,55 @@ export const Logo = styled.img`
 
 export const SearchField = styled.input`
     position: relative;
+    z-index: 3;
     padding: 10px 7px 10px 32px;
     border-radius: 25px;
-    border: 1.5px solid ${({theme}) => theme.colors.bgVeryLightGrey};;
+    border: 1.5px solid ${({theme}) => theme.colors.bgVeryLightGrey};
     background-color: ${({theme}) => theme.colors.bgVeryLightGrey};
     transition: border-color 0.3s ease;
 
     &:focus {
         border-color: ${({theme}) => theme.colors.textMediumGrey};
         outline: none;
+    }
+`
+
+export const Dropdown = styled.ul`
+    position: absolute;
+    padding-top: 27px;
+    width: 204px;
+    max-height: 215px;
+    z-index: 1;
+    top: 20px;
+    background-color: #FFFFFF;
+    cursor: auto;
+    list-style-type: none;
+    border-radius: 0 0 10px 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    overflow-y: scroll;
+    /* Hide scrollbar in Firefox */
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+    /* Hide scrollbar in Internet Explorer */
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        display: none;
+    }
+`
+
+export const DropdownItem = styled.li`
+    width: 100%;
+    height: auto;
+    padding: 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #FFFFFF;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: ${({theme}) => theme.colors.bgVeryLightGrey};
     }
 `
