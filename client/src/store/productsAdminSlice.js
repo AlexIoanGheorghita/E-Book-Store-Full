@@ -35,6 +35,11 @@ const productsAdminSlice = createSlice({
                 return elem.product_id !== action.payload;
             });
             state.existingProducts = [...state.existingProducts, action.payload];
+        },
+        addNewProduct: (state, action) => {
+            if (!state.existingProducts.includes(action.payload)) {
+                state.existingProducts = [...state.existingProducts, action.payload];
+            }
         }
     },
     extraReducers: {
@@ -198,6 +203,6 @@ export const selectExistingSortedDescByAuthor = (state) => {
     return state.admin.existingProducts !== undefined ? bubbleSort([...state.admin.existingProducts], 'authors', 'desc') : [];
 }
 
-export const { addAwaitingItemToExisting } = productsAdminSlice.actions;
+export const { addAwaitingItemToExisting, addNewProduct } = productsAdminSlice.actions;
 
 export default productsAdminSlice.reducer;
