@@ -3,15 +3,15 @@ import { Container, ReviewListTitle, Wrapper } from './ReviewList.styled';
 import ReviewField from './ReviewField';
 import Review from './Review';
 
-const ReviewList = ({ reviewArr }) => {
+const ReviewList = ({ setDetails, details, productId }) => {
     return (
         <Container>
-            <ReviewField />
+            <ReviewField setDetails={setDetails} details={details} id={productId}/>
             <Wrapper>
-                {reviewArr.length > 0 ?
+                {details.reviews.length > 0 ?
                 <ReviewListTitle>Reviews</ReviewListTitle> : null}
                 
-                {reviewArr.map(review => {
+                {details.reviews.map(review => {
                     return <Review key={review.review_id} data={review}/>
                 })}
             </Wrapper>

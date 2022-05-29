@@ -7,10 +7,10 @@ export const Container = styled.div`
     margin: 0 0 10px 66px;
 `
 
-export const Title = styled.p`
+export const Title = styled.h2`
     margin: 0 0 20px 0;
     font-size: 1.8rem;
-    font-family: ${({theme}) => theme.font.headings};
+    font-family: ${({theme}) => theme.font.headings2};
 `
 
 export const Label = styled.label`
@@ -30,6 +30,10 @@ export const Input = styled.input`
         border-color: ${({theme}) => theme.colors.textMediumGrey};
         outline: none;
     }
+
+    &#rating {
+        width: 80px;
+    }
 `
 
 export const Textarea = styled.textarea`
@@ -48,24 +52,25 @@ export const Textarea = styled.textarea`
     }
 `
 
-export const Rating = styled.div`
-
-`
-
 export const Button = styled.button`
     width: 230px;
     height: 35px;
     cursor: pointer;
-    background-color: ${({theme}) => theme.colors.buttons};
+    background-color: ${({theme}) => theme.colors.darkBlue};
     border: none;
-    font-family: 'Verdana', sans-serif;
-    letter-spacing: 0.5px;
-    color: ${({theme}) => theme.colors.textVeryDarkGrey};
+    font-family: ${({theme}) => theme.colors.paragraphs2}, 'Verdana', sans-serif;
+    letter-spacing: 1px;
+    color: #FFFFFF;
     transition: width 0.2s ease, height 0.2s ease, font-size 0.2s ease;
 
     &:hover {
         width: 250px;
         height: 45px;
         font-size: 16px;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 `

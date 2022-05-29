@@ -13,7 +13,7 @@ const Product = () => {
     useEffect(() => {
         loadProductDetails(productId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [productId]);
 
     const loadProductDetails = async (id) => {
         try {
@@ -38,15 +38,13 @@ const Product = () => {
         setRating(totalRating);
     };
 
-
-
     return (
         <>
             {details ? (
                 <>
                     <ProductDetails prodDetails={details} rating={rating} />
                     <ProductSlider books={details.related} />
-                    <ReviewList reviewArr={details.reviews}/>
+                    <ReviewList setDetails={setDetails} details={details} productId={productId}/>
                 </>) : null}
         </>
     )
