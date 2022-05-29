@@ -22,6 +22,23 @@ const verify = (req, res, next) => {
     }
 }
 
+const verifyIndividualExistence = (req, res, next) => {
+    const authToken = req.cookies.token;
+    if (!authToken) {
+        req.user = { id: null, name: null, type: 'unregistered' };
+        next();
+    } else {
+        jwt.verify(authToken, process.env.SECRET_KEY, (err, user) => {
+            if (err) {
+                res.status(401).json('Token is invalid!');
+            } else {
+                req.user = user;
+                next();
+            }
+        });
+    }
+}
+
 const verifyAdmin = (req, res, next) => {
     const authToken = req.cookies.token;
     if (!authToken) {
@@ -668,6 +685,70 @@ const validateAdminNewProductUpload = (req, res, next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    const errorMessages = {
+        titleErr: '',
+        descErr: '',
+        rateErr: ''
+    };
+    const { title, description, rating } = req.body;
+
+    if (!title) {
+        errorMessages.titleErr = 'No title present';
+    }
+
+    if (!description) {
+        errorMessages.descErr = 'No description present';
+    }
+
+    if (!rating || Number(rating) <= 0) {
+        errorMessages.rateErr = 'No rating present';
+    }
+
+    let errorsFound = 0;
+    for (const key of Object.keys(errorMessages)) {
+        if (errorMessages[key]) {
+            errorsFound += 1;
+        }
+    }
+
+    if (errorsFound) {
+        res.status(500).json(errorMessages);
+    } else {
+        const checkTitle = validateTitle(title);
+        if (checkTitle !== null) {
+            errorMessages.titleErr = checkTitle;
+        }
+
+        const checkDesc = validateTitle(description);
+        if (checkDesc !== null) {
+            errorMessages.descErr = checkDesc;
+        }
+
+        if (Number.isNaN(rating)) {
+            errorMessages.rateErr = 'Rating needs to be a number';
+        } else if (rating < 1.0 || rating > 5.0) {
+            errorMessages.rateErr = 'Rating needs to be between 1.0 and 5.0';
+        } else if ((rating * 10) % 5 !== 0) {
+            errorMessages.rateErr = 'Rating needs to be in increments of 0.5';
+        }
+
+        let newErrorsFound = 0;
+        for (const key of Object.keys(errorMessages)) {
+            if (errorMessages[key]) {
+                newErrorsFound += 1;
+            }
+        }
+
+        if (newErrorsFound) {
+            res.status(400).json(errorMessages);
+        } else {
+            req.details = { title, description, rating };
+            next();
+        }
+    }
+}
+
 const validateEmail = (email) => {
     const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
     if (!emailRegex.test(email)) {
@@ -889,10 +970,12 @@ module.exports = {
     verify,
     verifyAdmin,
     verifyProfessor,
+    verifyIndividualExistence,
     validateLogin,
     validateRegister,
     validateUpload,
     validateCredUpdate,
     validateAdminProductUpload,
-    validateAdminNewProductUpload
+    validateAdminNewProductUpload,
+    validateReview
 };
