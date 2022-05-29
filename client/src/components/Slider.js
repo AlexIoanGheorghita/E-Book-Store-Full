@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Wrapper, Slider, ArrowWrapper, SliderTitle } from './Slider.styled';
 import Card from './Card';
 import { makeStyles } from '@material-ui/core';
@@ -17,12 +18,13 @@ const useStyles = makeStyles({
 
 const ProductSlider = ({ books }) => {
     const [count, setCount] = useState(0);
+    const sliderRef = useRef();
 
     const handleCount = (direction) => {
         if (direction === 'left' && count > 0) {
             setCount(count - 1);
 
-        } else if (direction === 'right' && count <= 4) {
+        } else if (direction === 'right' && count <= calculateSteps(books.length) - 1) {
             setCount(count + 1);
         }  
     };
@@ -32,7 +34,23 @@ const ProductSlider = ({ books }) => {
     }
 
     const handleEndReachRight = () => {
-        return count === 5;
+        return count === calculateSteps(books.length);
+    }
+
+    const calculateSteps = (length) => {
+        let containerWidth = 0;
+        const elementsTotalWidth = Math.floor(length * 162); // 162px is the width of each element in the slider
+        if (sliderRef.current) {
+            containerWidth = sliderRef.current.getBoundingClientRect().width;
+        }
+
+        if (elementsTotalWidth <= containerWidth) {
+            return 0;
+        } else {
+            const steps = Math.ceil((elementsTotalWidth - containerWidth) / 162);
+            console.log(steps);
+            return steps;
+        }
     }
 
     const classes = useStyles({ endLeft: handleEndReachLeft(), endRight: handleEndReachRight() });
@@ -40,13 +58,13 @@ const ProductSlider = ({ books }) => {
     return (
         <>
             <SliderTitle>Products from the same category</SliderTitle>
-            <Wrapper>
+            <Wrapper ref={sliderRef}>
                 <ArrowWrapper direction='left' onClick={() => handleCount('left')}>
                     <ArrowLeftOutlined className={classes.arrowLeft}/>
                 </ArrowWrapper>
                 <Slider distance={count}>
                     {books.map(book => {
-                        return <Card key={book.product_id} title={book.title} author={book.author_name} image={book.thumbnail_url}></Card>
+                        return <Link to={`/products/${book.product_id}`} key={book.product_id}><Card maximize={false} title={book.title} author={book.author_name} image={book.thumbnail_url}/></Link>
                     })}
                 </Slider>
                 <ArrowWrapper direction='right' onClick={() => handleCount('right')}>

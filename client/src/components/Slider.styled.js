@@ -16,12 +16,17 @@ export const Slider = styled.div`
     padding: 15px 0;
     transform: translateX(-${(props) => props.distance*166}px);
     transition: transform 0.4s ease;
+
+    & a {
+        color: #000000;
+        text-decoration: none;
+    }
 `
 
 export const SliderTitle = styled.h2`
     margin: 0 0 10px 66px;
     font-size: 1.8rem;
-    font-family: ${({theme}) => theme.font.headings};
+    font-family: ${({theme}) => theme.font.headings2};
 `
 
 export const ArrowWrapper = styled.div`
