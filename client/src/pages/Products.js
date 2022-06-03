@@ -1,6 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ProductsContainer, Categories, Title, Menu, ProductGrid, Grid } from './Products.styled';
-import ProductCard from '../components/ProductCard';
 import List from '../components/List';
 import Pagination from '../components/Pagination';
 import Filters from '../components/Filters';
