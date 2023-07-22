@@ -2,7 +2,7 @@
 
 This application represents my Bachelor project - an online store that sells e-books for the students of the Romanian-American University of Bucharest. 
 
-The project has been created in the PERN stack (Postgres as the database, Express.js as a lightweight back-end framework, React as the client library, and Node.js as the back-end runtime). Besides these, some important libraries used are Redux, Redux-Toolkit, MaterialUI, 
+The project has been created in the PERN stack (Postgres as the database, Express.js as a lightweight back-end framework, React as the client library, and Node.js as the back-end runtime). Besides these, some important libraries used are Redux, Redux-Toolkit, MaterialUI, styled-components, Stripe, and others.
 
 This is my most comprehensive application to date, as it is a full-stack application. It involves multiple systems and components: an authentication system (sign in and sign up), a self-publishing system, a payment system (using the Stripe API), shopping cart system, products page, individual product information page, personal user account, book reading page within the personal user account, administrator dashboard, and others.
 
